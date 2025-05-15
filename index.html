@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cursed Calculator</title>
+  <style>
+    body {
+      background-color: red;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      transition: all 1s ease;
+      overfl<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cursed Calculator</title>
+  <style>
+    body {
+      background-color: red;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      transition: all 1s ease;
+      overflow: hidden;
+    }
+ 
+    #counter {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 18px;
+      z-index: 1000;
+    }
+ 
+    #calculator {
+      display: inline-block;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px black;
+      z-index: 10;
+      position: relative;
+    }
+ 
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+ 
+    button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 18px;
+      width: 60px;
+    }
+ 
+    .dorito {
+      position: absolute;
+      width: 250px;
+      cursor: pointer;
+      animation: spin 4s linear infinite;
+      z-index: 500;
+    }
+ 
+    @keyframes spin {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1.5); }
+    }
+ 
+    .dust {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background-image: url('9db8cab80ae85360f8c7fc2072f004eb.jpg');
+      background-size: cover;
+      pointer-events: none;
+      opacity: 0.8;
+      z-index: 400;
+    }
+ 
+    #cake {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      z-index: 2000;
+      transition: transform 1s ease, opacity 1s ease;
+      opacity: 0;
+    }
+ 
+    #cake.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="counter">Doritos Clicked: 0</div>
+ 
+  <div id="calculator">
+    <input type="text" id="display" disabled>
+    <br>
+    <button onclick="press('1')">1</button>
+    <button onclick="press('2')">2</button>
+    <button onclick="press('3')">3</button>
+    <button onclick="press('+')">+</button>
+    <br>
+    <button onclick="press('4')">4</button>
+    <button onclick="press('5')">5</button>
+    <button onclick="press('6')">6</button>
+    <button onclick="press('-')">-</button>
+    <br>
+    <button onclick="press('7')">7</button>
+    <button onclick="press('8')">8</button>
+    <button onclick="press('9')">9</button>
+    <button onclick="press('*')">*</button>
+    <br>
+    <button onclick="press('0')">0</button>
+    <button onclick="press('.')">.</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="press('/')">/</button>
+    <br>
+    <button onclick="clearDisplay()">C</button>
+  </div>
+ 
+  <!-- 🎂 Birthday Cake -->
+  <img id="cake" src="pngimg.com - cake_PNG13121.png">
+  <script>
+    let display = document.getElementById("display");
+    let doritosClicked = 0;
+    let counterDisplay = document.getElementById("counter");
+    const cake = document.getElementById("cake");
+ 
+    function press(num) {
+      display.value += num;
+    }
+ 
+    function calculate() {
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = "Error";
+      }
+    }
+ 
+    function clearDisplay() {
+      display.value = "";
+    }
+ 
+    // Cursed Doritos after 3 seconds
+    setTimeout(() => {
+      document.body.style.color = "lime";
+      document.body.style.transform = "rotate(-1deg)";
+ 
+      // Start adding Doritos
+      setInterval(() => {
+        const img = document.createElement("img");
+        img.src = "pngimg.com - doritos_PNG60.png";
+        img.classList.add("dorito");
+        img.style.top = Math.random() * window.innerHeight + "px";
+        img.style.left = Math.random() * window.innerWidth + "px";
+        img.onclick = () => explodeDorito(img);
+        document.body.appendChild(img);
+      }, 500);
+    }, 3000);
+ 
+    function explodeDorito(dorito) {
+      const rect = dorito.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+ 
+      dorito.remove();
+ 
+      doritosClicked++;
+      counterDisplay.textContent = `Doritos Clicked: ${doritosClicked}`;
+ 
+      // 🎂 Show cake at 1000 Doritos clicked
+      if (doritosClicked === 1000) {
+        cake.classList.add("show");
+      }
+ 
+      for (let i = 0; i < 20; i++) {
+        const dust = document.createElement('div');
+        dust.classList.add('dust');
+        dust.style.left = centerX + 'px';
+        dust.style.top = centerY + 'px';
+ 
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 100;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+ 
+        dust.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+        document.body.appendChild(dust);
+ 
+        requestAnimationFrame(() => {
+          dust.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
+          dust.style.opacity = '0';
+        });
+ 
+        setTimeout(() => dust.remove(), 1000);
+      }
+    }
+  </script>
+</body>
+</html>
+ow: hidden;
+    }
+ 
+    #counter {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 18px;
+      z-index: 1000;
+    }
+ 
+    #calculator {
+      display: inline-block;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px black;
+      z-index: 10;
+      position: relative;
+    }
+ 
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+ 
+    button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 18px;
+      width: 60px;
+    }
+ 
+    .dorito {
+      position: absolute;
+      width: 250px;
+      cursor: pointer;
+      animation: spin 4s linear infinite;
+      z-index: 500;
+    }
+ 
+    @keyframes spin {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1.5); }
+    }
+ 
+    .dust {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background-image: url('9db8cab80ae85360f8c7fc2072f004eb.jpg');
+      background-size: cover;
+      pointer-events: none;
+      opacity: 0.8;
+      z-index: 400;
+    }
+ 
+    #cake {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      z-index: 2000;
+      transition: transform 1s ease, opacity 1s ease;
+      opacity: 0;
+    }
+ 
+    #cake.show {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="counter">Doritos Clicked: 0</div>
+ 
+  <div id="calculator">
+    <input type="text" id="display" disabled>
+    <br>
+    <button onclick="press('1')">1</button>
+    <button onclick="press('2')">2</button>
+    <button onclick="press('3')">3</button>
+    <button onclick="press('+')">+</button>
+    <br>
+    <button onclick="press('4')">4</button>
+    <button onclick="press('5')">5</button>
+    <button onclick="press('6')">6</button>
+    <button onclick="press('-')">-</button>
+    <br>
+    <button onclick="press('7')">7</button>
+    <button onclick="press('8')">8</button>
+    <button onclick="press('9')">9</button>
+    <button onclick="press('*')">*</button>
+    <br>
+    <button onclick="press('0')">0</button>
+    <button onclick="press('.')">.</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="press('/')">/</button>
+    <br>
+    <button onclick="clearDisplay()">C</button>
+  </div>
+ 
+  <!-- 🎂 Birthday Cake -->
+  <img id="cake" src="pngimg.com - cake_PNG13121.png">
+  <script>
+    let display = document.getElementById("display");
+    let doritosClicked = 0;
+    let counterDisplay = document.getElementById("counter");
+    const cake = document.getElementById("cake");
+ 
+    function press(num) {
+      display.value += num;
+    }
+ 
+    function calculate() {
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = "Error";
+      }
+    }
+ 
+    function clearDisplay() {
+      display.value = "";
+    }
+ 
+    // Cursed Doritos after 3 seconds
+    setTimeout(() => {
+      document.body.style.color = "lime";
+      document.body.style.transform = "rotate(-1deg)";
+ 
+      // Start adding Doritos
+      setInterval(() => {
+        const img = document.createElement("img");
+        img.src = "Dorito_Chip.webp";
+        img.classList.add("dorito");
+        img.style.top = Math.random() * window.innerHeight + "px";
+        img.style.left = Math.random() * window.innerWidth + "px";
+        img.onclick = () => explodeDorito(img);
+        document.body.appendChild(img);
+      }, 500);
+    }, 3000);
+ 
+    function explodeDorito(dorito) {
+      const rect = dorito.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+ 
+      dorito.remove();
+ 
+      doritosClicked++;
+      counterDisplay.textContent = `Doritos Clicked: ${doritosClicked}`;
+ 
+      // 🎂 Show cake at 1000 Doritos clicked
+      if (doritosClicked === 1000) {
+        cake.classList.add("show");
+      }
+ 
+      for (let i = 0; i < 20; i++) {
+        const dust = document.createElement('div');
+        dust.classList.add('dust');
+        dust.style.left = centerX + 'px';
+        dust.style.top = centerY + 'px';
+ 
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 100;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+ 
+        dust.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+        document.body.appendChild(dust);
+ 
+        requestAnimationFrame(() => {
+          dust.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
+          dust.style.opacity = '0';
+        });
+ 
+        setTimeout(() => dust.remove(), 1000);
+      }
+    }
+  </script>
+</body>
+</html>
+ 
+ 
