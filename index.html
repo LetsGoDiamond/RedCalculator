@@ -71,7 +71,7 @@
  
     @keyframes spin {
       0% { transform: rotate(0deg) scale(1); }
-      100% { transform: rotate(360deg) scale(1.5); }
+      100% { transform: rotate(360deg) scale(2); }
     }
  
     .dust {
@@ -182,7 +182,7 @@
       counterDisplay.textContent = `Doritos Clicked: ${doritosClicked}`;
  
       // 🎂 Show cake at 1000 Doritos clicked
-      if (doritosClicked === 1000) {
+      if (doritosClicked === 50) {
         cake.classList.add("show");
       }
  
